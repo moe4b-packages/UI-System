@@ -1,0 +1,16 @@
+{
+    "name": "MB-UI-System",
+    "rootNamespace": "MB.UISystem",
+    "references": [
+        "GUID:25bbaff0f61abea489d3a55b470819db"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
