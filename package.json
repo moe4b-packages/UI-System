@@ -1,8 +1,8 @@
 {
   "name": "com.moe-baker.ui-system",
   "version": "1.0.0",
-  "displayName": "Moe Baker Packages",
-  "description": "A UI System",
+  "displayName": "UI System",
+  "description": "A basic UI System",
   "unity": "2017.1",
   "unityRelease": "0a0",
   "keywords": [],
