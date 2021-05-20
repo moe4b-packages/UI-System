@@ -24,20 +24,33 @@ namespace MB.UISystem
 	public class UIFader : MonoBehaviour, IInitialize
 	{
 		[SerializeField]
-        float duration = 2f;
-        public float Duration => duration;
+		DurationData duration;
+		public DurationData Duration => duration;
+		[Serializable]
+		public class DurationData
+        {
+			[SerializeField]
+			float on = 1f;
+			public float On => on;
 
-		public bool IsOn { get; protected set; }
+			[SerializeField]
+			float off = 1f;
+			public float Off => off;
+		}
+
+		[SerializeField]
+		bool isOn;
+		public bool IsOn => isOn;
 
 		public Image Image { get; protected set; }
 
+		public CanvasGroup CanvasGroup { get; protected set; }
+
 		public Color Color
-        {
+		{
 			get => Image.color;
 			set => Image.color = value;
-        }
-
-		public CanvasGroup CanvasGroup { get; protected set; }
+		}
 
 		public float Alpha
         {
@@ -51,6 +64,14 @@ namespace MB.UISystem
 			set => CanvasGroup.blocksRaycasts = value;
         }
 
+		void OnValidate()
+        {
+			Image = GetComponent<Image>();
+			CanvasGroup = GetComponent<CanvasGroup>();
+
+			SetState(isOn);
+		}
+
 		public void Configure()
 		{
 			Image = GetComponent<Image>();
@@ -62,33 +83,49 @@ namespace MB.UISystem
 			
 		}
 
-		public Coroutine Show()
+		/// <summary>
+		/// Instantly set state without transition
+		/// </summary>
+		/// <param name="value"></param>
+		public void SetState(bool value)
 		{
-			IsOn = true;
+			isOn = value;
 
-			return Process();
+			Alpha = isOn ? 1f : 0f;
+			BlockRaycasts = isOn;
 		}
 
-		public Coroutine Toggle()
+		public Coroutine Show(float? duration = null)
+		{
+			isOn = true;
+
+			if (duration == null) duration = this.duration.On;
+
+			return Process(duration.Value);
+		}
+
+		public Coroutine Toggle(float? duration = null)
         {
 			if (IsOn)
-				return Hide();
+				return Hide(duration: duration);
 			else
-				return Show();
+				return Show(duration: duration);
         }
 
-		public Coroutine Hide()
+		public Coroutine Hide(float? duration = null)
 		{
-			IsOn = false;
+			isOn = false;
 
-			return Process();
+			if (duration == null) duration = this.duration.Off;
+
+			return Process(duration.Value);
 		}
 
-		Coroutine Process()
+		Coroutine Process(float duration)
         {
 			if (coroutine != null) StopCoroutine(coroutine);
 
-			coroutine = StartCoroutine(Procedure());
+			coroutine = StartCoroutine(Procedure(duration));
 
 			return coroutine;
         }
@@ -100,7 +137,7 @@ namespace MB.UISystem
         }
 
 		Coroutine coroutine;
-		public IEnumerator Procedure()
+		public IEnumerator Procedure(float duration)
 		{
 			Begin();
 
@@ -112,7 +149,7 @@ namespace MB.UISystem
 			{
 				timer = Mathf.MoveTowards(timer, duration, Time.unscaledDeltaTime);
 
-				Alpha = IsOn ? Mathf.Lerp(0, 1, timer / duration) : Mathf.Lerp(1, 0, timer / duration);
+				Alpha = isOn ? Mathf.Lerp(0, 1, timer / duration) : Mathf.Lerp(1, 0, timer / duration);
 
 				if (Mathf.Approximately(timer, duration)) break;
 
