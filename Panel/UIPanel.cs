@@ -30,17 +30,12 @@ namespace MB.UISystem
 
         public static List<UIPanel> List { get; protected set; }
 
+        static void Register(UIPanel item) => List.Add(item);
+        static bool Unregister(UIPanel item) => List.Remove(item);
+
         static UIPanel()
         {
             List = new List<UIPanel>();
         }
-
-        static void Register(UIPanel item)
-        {
-            if (List.Contains(item)) return;
-
-            List.Add(item);
-        }
-        static bool Unregister(UIPanel item) => List.Remove(item);
     }
 }

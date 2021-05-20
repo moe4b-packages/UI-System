@@ -62,44 +62,48 @@ namespace MB.UISystem
 			
 		}
 
-		public void Show()
+		public Coroutine Show()
 		{
 			IsOn = true;
 
-			Process();
+			return Process();
 		}
 
-		public void Toggle()
+		public Coroutine Toggle()
         {
 			if (IsOn)
-				Hide();
+				return Hide();
 			else
-				Show();
+				return Show();
         }
 
-		public void Hide()
+		public Coroutine Hide()
 		{
 			IsOn = false;
 
-			Process();
+			return Process();
 		}
 
-		void Update()
-        {
-			if (Input.GetKeyDown(KeyCode.Mouse0))
-				Toggle();
-		}
-
-		void Process()
+		Coroutine Process()
         {
 			if (coroutine != null) StopCoroutine(coroutine);
 
 			coroutine = StartCoroutine(Procedure());
+
+			return coroutine;
+        }
+
+		public event Action OnBegin;
+		void Begin()
+        {
+			OnBegin?.Invoke();
         }
 
 		Coroutine coroutine;
 		public IEnumerator Procedure()
 		{
+			Begin();
+
 			BlockRaycasts = IsOn;
 
 			var timer = 0f;
@@ -115,7 +119,15 @@ namespace MB.UISystem
 				yield return new WaitForEndOfFrame();
 			}
 
-			coroutine = null;
+			End();
 		}
+
+		public event Action OnEnd;
+		void End()
+        {
+			coroutine = null;
+
+			OnEnd?.Invoke();
+        }
     }
 }
