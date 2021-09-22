@@ -28,7 +28,7 @@ namespace MB.UISystem
 
         void Reset()
         {
-            target = QueryComponent.InParents<UIElement>(this);
+            target = QueryComponent.In<UIElement>(this, QueryComponent.Self, QueryComponent.Parents);
         }
 
         public override void Execute()
