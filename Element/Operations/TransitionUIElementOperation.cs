@@ -32,7 +32,7 @@ namespace MB.UISystem
 
         void Reset()
         {
-            current = QueryComponent.In<UIElement>(this, QueryComponent.Self, QueryComponent.Parents);
+            current = ComponentQuery.Single.In<UIElement>(this, ComponentQuery.Self, ComponentQuery.Parents);
         }
 
         public override void Execute()
