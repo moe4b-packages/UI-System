@@ -33,7 +33,7 @@ namespace MB.UISystem
             Element = GetComponent<UIElement>();
         }
 
-        public virtual void Init()
+        public virtual void Initialize()
         {
             
         }

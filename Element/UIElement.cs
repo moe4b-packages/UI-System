@@ -44,7 +44,7 @@ namespace MB.UISystem
 
         }
 
-        public virtual void Init()
+        public virtual void Initialize()
         {
 
         }

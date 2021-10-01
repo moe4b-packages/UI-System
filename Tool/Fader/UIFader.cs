@@ -78,7 +78,7 @@ namespace MB.UISystem
 			CanvasGroup = GetComponent<CanvasGroup>();
 		}
 
-		public void Init()
+		public void Initialize()
 		{
 			
 		}
