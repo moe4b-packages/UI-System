@@ -19,6 +19,7 @@ using Random = UnityEngine.Random;
 
 namespace MB.UISystem
 {
+    [AddComponentMenu(Path + "Toggle Preference")]
     public class ToggleUIPreference : UIPreference<Toggle, bool>
     {
         public override bool Data

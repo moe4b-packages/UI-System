@@ -19,6 +19,7 @@ using Random = UnityEngine.Random;
 
 namespace MB.UISystem
 {
+	[AddComponentMenu(Paths.Variants + "Popup Panel")]
 	public class PopupPanel : UIPanel
 	{
 		[SerializeField]

@@ -19,7 +19,7 @@ using Random = UnityEngine.Random;
 
 namespace MB.UISystem
 {
-    [AddComponentMenu(UI.Path + "Operations/" + "Show UI Element")]
+    [AddComponentMenu(UIElement.Paths.Operations + "Show UI Element")]
     public class ShowUIElementOperation : Operation
 	{
         [SerializeField]

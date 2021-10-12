@@ -19,6 +19,7 @@ using Random = UnityEngine.Random;
 
 namespace MB.UISystem
 {
+    [AddComponentMenu(Path + "Dropdown Preference")]
     public class DropdownUIPreference : UIPreference<Dropdown, int>
     {
         public override int Data

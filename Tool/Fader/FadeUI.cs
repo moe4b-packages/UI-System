@@ -21,7 +21,8 @@ namespace MB.UISystem
 {
 	[RequireComponent(typeof(Image))]
 	[RequireComponent(typeof(CanvasGroup))]
-	public class UIFader : MonoBehaviour, IInitialize
+	[AddComponentMenu(UI.Paths.Tools + "Fade UI")]
+	public class FadeUI : MonoBehaviour, IInitialize
 	{
 		[SerializeField]
 		DurationData duration;

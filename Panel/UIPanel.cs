@@ -19,9 +19,16 @@ using Random = UnityEngine.Random;
 
 namespace MB.UISystem
 {
-    [AddComponentMenu(UI.Path + "UI Panel")]
+    [AddComponentMenu(Paths.Root + "UI Panel")]
     public class UIPanel : UIElement
     {
+        public new static class Paths
+        {
+            public const string Root = UI.Paths.Root + "Panel/";
+
+            public const string Variants = Root + "Variants/";
+        }
+        
         protected virtual void OnEnable() => Register(this);
 
         protected virtual void OnDisable() => Unregister(this);

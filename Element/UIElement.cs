@@ -22,9 +22,16 @@ using UnityEngine.EventSystems;
 
 namespace MB.UISystem
 {
-    [AddComponentMenu(UI.Path + "UI Element")]
+    [AddComponentMenu(Paths.Root + "UI Element")]
     public class UIElement : MonoBehaviour, IInitialize
     {
+        public static class Paths
+        {
+            public const string Root = UI.Paths.Root + "Element/";
+
+            public const string Operations = Root + "Operations/";
+        }
+        
         public virtual GameObject Context => gameObject;
 
         public bool Visibile

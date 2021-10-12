@@ -19,6 +19,7 @@ using Random = UnityEngine.Random;
 
 namespace MB.UISystem
 {
+    [AddComponentMenu(Path + "Input Field Preference")]
     public class InputFieldUIPreference : UIPreference<InputField, string>
     {
         public override string Data

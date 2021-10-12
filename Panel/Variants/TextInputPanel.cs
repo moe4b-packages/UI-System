@@ -19,6 +19,7 @@ using Random = UnityEngine.Random;
 
 namespace MB.UISystem
 {
+	[AddComponentMenu(Paths.Variants + "Text Input Panel")]
 	public class TextInputPanel : UIPanel
 	{
 		[SerializeField]

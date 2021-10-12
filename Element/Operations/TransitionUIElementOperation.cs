@@ -19,7 +19,7 @@ using Random = UnityEngine.Random;
 
 namespace MB.UISystem
 {
-    [AddComponentMenu(UI.Path + "Operations/" + "Transition UI Element")]
+    [AddComponentMenu(UIElement.Paths.Operations + "Transition UI Element")]
     public class TransitionUIElementOperation : Operation
 	{
         [SerializeField]

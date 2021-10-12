@@ -19,7 +19,7 @@ using Random = UnityEngine.Random;
 
 namespace MB.UISystem
 {
-    [AddComponentMenu(UI.Path + "Operations/" + "Hide UI Element")]
+    [AddComponentMenu(UIElement.Paths.Operations + "Hide UI Element")]
     public class HideUIElementOperation : Operation
 	{
 		[SerializeField]

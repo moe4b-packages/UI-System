@@ -24,6 +24,8 @@ namespace MB.UISystem
 {
     public abstract class UIPreference : MonoBehaviour
     {
+        public const string Path = UI.Paths.Tools + "Preference/";
+        
         [SerializeField]
         protected string ID;
 

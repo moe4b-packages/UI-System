@@ -21,6 +21,11 @@ namespace MB.UISystem
 {
 	public static class UI
 	{
-		public const string Path = Toolbox.Path + "UI System/";
+		public static class Paths
+		{
+			public const string Root = Toolbox.Paths.Root + "UI System/";
+
+			public const string Tools = Root + "Tools/";
+		}
 	}
 }
