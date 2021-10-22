@@ -64,8 +64,8 @@ namespace MB.UISystem
             gameObject.SetActive(true);
         }
 
-        protected virtual void Save(TData data) => AutoPrefs.Set(ID, data);
-        protected virtual TData Load() => AutoPrefs.Read<TData>(ID);
+        protected virtual void Save(TData data) => AutoPreferences.Set(ID, data);
+        protected virtual TData Load() => AutoPreferences.Read<TData>(ID);
 
         protected abstract void RegisterCallback();
 
