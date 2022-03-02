@@ -35,21 +35,27 @@ namespace MB.UISystem
         }
     }
 
-    public abstract class UIPreference<TComponent, TData> : UIPreference
+    public abstract class UIPreference<TComponent, TData> : UIPreference, PreAwake.IInterface
         where TComponent : Component
     {
         [SerializeField]
         TData _default = default;
         public TData Default => _default;
 
-        public TComponent Component { get; protected set; }
+        [ReadOnly]
+        [SerializeField]
+        protected TComponent component;
+        public TComponent Component => component;
 
         public abstract TData Data { get; set; }
 
+        public virtual void PreAwake()
+        {
+            component = GetComponent<TComponent>();
+        }
+
         void Awake()
         {
-            Component = GetComponent<TComponent>();
-
             ManualLateStart.Register(LateStart);
         }
 

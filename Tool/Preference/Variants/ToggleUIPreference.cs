@@ -24,10 +24,10 @@ namespace MB.UISystem
     {
         public override bool Data
         {
-            get => Component.isOn;
-            set => Component.isOn = value;
+            get => component.isOn;
+            set => component.isOn = value;
         }
 
-        protected override void RegisterCallback() => Component.onValueChanged.AddListener(ChangeCallback);
+        protected override void RegisterCallback() => component.onValueChanged.AddListener(ChangeCallback);
     }
 }

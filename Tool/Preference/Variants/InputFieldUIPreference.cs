@@ -24,10 +24,10 @@ namespace MB.UISystem
     {
         public override string Data
         {
-            get => Component.text;
-            set => Component.text = value;
+            get => component.text;
+            set => component.text = value;
         }
 
-        protected override void RegisterCallback() => Component.onValueChanged.AddListener(ChangeCallback);
+        protected override void RegisterCallback() => component.onValueChanged.AddListener(ChangeCallback);
     }
 }
