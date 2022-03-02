@@ -19,21 +19,24 @@ using Random = UnityEngine.Random;
 
 namespace MB.UISystem
 {
-    [AddComponentMenu(UIElement.Paths.Operations + "Show UI Element")]
-    public class ShowUIElementOperation : Operation
+    [AddComponentMenu(UIElement.Paths.Operations + "Show UI Element Operation")]
+    public class ShowUIElementOperation : Operation.Process
 	{
         [SerializeField]
         UIElement target = default;
         public UIElement Target => target;
 
-        void Reset()
+        protected override void Reset()
         {
+            base.Reset();
+
             target = ComponentQuery.Single.In<UIElement>(this, ComponentQuery.Self, ComponentQuery.Parents);
         }
 
-        public override void Execute()
+        public override object Execute()
         {
             target.Show();
+            return null;
         }
     }
 }

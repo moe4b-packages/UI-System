@@ -19,8 +19,8 @@ using Random = UnityEngine.Random;
 
 namespace MB.UISystem
 {
-    [AddComponentMenu(UIElement.Paths.Operations + "Transition UI Element")]
-    public class TransitionUIElementOperation : Operation
+    [AddComponentMenu(UIElement.Paths.Operations + "Transition UI Element Operation")]
+    public class TransitionUIElementOperation : Operation.Process
 	{
         [SerializeField]
         UIElement current = default;
@@ -30,15 +30,18 @@ namespace MB.UISystem
         UIElement next = default;
         public UIElement Next => next;
 
-        void Reset()
+        protected override void Reset()
         {
+            base.Reset();
+
             current = ComponentQuery.Single.In<UIElement>(this, ComponentQuery.Self, ComponentQuery.Parents);
         }
 
-        public override void Execute()
+        public override object Execute()
         {
             current.Hide();
             next.Show();
+            return null;
         }
     }
 }

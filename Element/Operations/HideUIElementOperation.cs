@@ -19,21 +19,24 @@ using Random = UnityEngine.Random;
 
 namespace MB.UISystem
 {
-    [AddComponentMenu(UIElement.Paths.Operations + "Hide UI Element")]
-    public class HideUIElementOperation : Operation
+    [AddComponentMenu(UIElement.Paths.Operations + "Hide UI Element Operation")]
+    public class HideUIElementOperation : Operation.Process
 	{
 		[SerializeField]
         UIElement target = default;
         public UIElement Target => target;
 
-        void Reset()
+        protected override void Reset()
         {
+            base.Reset();
+
             target = ComponentQuery.Single.In<UIElement>(this, ComponentQuery.Self, ComponentQuery.Parents);
         }
 
-        public override void Execute()
+        public override object Execute()
         {
             target.Hide();
+            return null;
         }
     }
 }
