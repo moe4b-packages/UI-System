@@ -41,7 +41,7 @@ namespace MB.UISystem
         {
             current.Hide();
             next.Show();
-            return null;
+            return default;
         }
     }
 }
