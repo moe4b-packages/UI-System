@@ -78,7 +78,6 @@ namespace MB.UISystem
 			Image = GetComponent<Image>();
 			CanvasGroup = GetComponent<CanvasGroup>();
 		}
-
 		public void Initialize()
 		{
 			
@@ -96,48 +95,39 @@ namespace MB.UISystem
 			BlockRaycasts = isOn;
 		}
 
-		public Coroutine Show(float? duration = null)
+		public MRoutine.Handle Toggle(float? duration = null)
+		{
+			if (IsOn)
+				return Hide(duration: duration);
+			else
+				return Show(duration: duration);
+		}
+
+		public MRoutine.Handle Show(float? duration = null)
 		{
 			isOn = true;
 
 			if (duration == null) duration = this.duration.On;
 
-			return Process(duration.Value);
+			return Initiate(duration.Value);
 		}
-
-		public Coroutine Toggle(float? duration = null)
-        {
-			if (IsOn)
-				return Hide(duration: duration);
-			else
-				return Show(duration: duration);
-        }
-
-		public Coroutine Hide(float? duration = null)
+		public MRoutine.Handle Hide(float? duration = null)
 		{
 			isOn = false;
 
 			if (duration == null) duration = this.duration.Off;
 
-			return Process(duration.Value);
+			return Initiate(duration.Value);
 		}
 
-		Coroutine Process(float duration)
+		MRoutine.Handle Initiate(float duration)
         {
-			if (coroutine != null) StopCoroutine(coroutine);
+			if (routine.IsValid) MRoutine.Stop(routine);
 
-			coroutine = StartCoroutine(Procedure(duration));
+			return MRoutine.Create(Procedure(duration)).Attach(gameObject).Start();
+		}
 
-			return coroutine;
-        }
-
-		public event Action OnBegin;
-		void Begin()
-        {
-			OnBegin?.Invoke();
-        }
-
-		Coroutine coroutine;
+		MRoutine.Handle routine;
 		public IEnumerator Procedure(float duration)
 		{
 			Begin();
@@ -154,17 +144,21 @@ namespace MB.UISystem
 
 				if (Mathf.Approximately(timer, duration)) break;
 
-				yield return new WaitForEndOfFrame();
+				yield return MRoutine.Wait.Frame();
 			}
 
 			End();
 		}
 
+		public event Action OnBegin;
+		void Begin()
+		{
+			OnBegin?.Invoke();
+		}
+
 		public event Action OnEnd;
 		void End()
         {
-			coroutine = null;
-
 			OnEnd?.Invoke();
         }
     }
