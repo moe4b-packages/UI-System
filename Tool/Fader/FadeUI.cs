@@ -122,7 +122,7 @@ namespace MB.UISystem
 
 		MRoutine.Handle Initiate(float duration)
         {
-			if (routine.IsValid) MRoutine.Stop(routine);
+			if (routine.IsProcessing) routine.Stop();
 
 			return MRoutine.Create(Procedure(duration)).Attach(gameObject).Start();
 		}

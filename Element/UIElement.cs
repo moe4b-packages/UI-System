@@ -115,7 +115,7 @@ namespace MB.UISystem
         MRoutine.Handle routine;
         public MRoutine.Handle Transition(bool value)
         {
-            if (routine.IsValid)
+            if (routine.IsProcessing)
                 routine.Stop();
 
             IsOn = value;

@@ -40,9 +40,9 @@ namespace MB.UISystem
 			button.onClick.AddListener(Click);
 		}
 
-		public void Show(string text) => Show(text, null, null);
-		public void Show(string text, string instruction) => Show(text, instruction, null);
-		public void Show(string text, string instruction, Action callback)
+		public MRoutine.Handle Show(string text) => Show(text, null, null);
+		public MRoutine.Handle Show(string text, string instruction) => Show(text, instruction, null);
+		public MRoutine.Handle Show(string text, string instruction, Action callback)
 		{
 			label.text = text;
 
@@ -51,7 +51,7 @@ namespace MB.UISystem
 
 			button.gameObject.SetActive(instruction != null);
 
-			Show();
+			return Show();
 		}
 
 		void Click()
