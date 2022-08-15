@@ -36,7 +36,7 @@ namespace MB.UISystem
         public bool IsOn { get; private set; }
 
         [SerializeField]
-        TransitionProperty transition;
+        protected TransitionProperty transition;
         [Serializable]
         public class TransitionProperty
         {
@@ -63,23 +63,14 @@ namespace MB.UISystem
 
         public virtual void PreAwake()
         {
-            RetrieveTransitions();
+            ComponentQuery.Collection.InHierarchy(this, transition.elements);
         }
 
         protected virtual void OnValidate()
         {
-            RetrieveTransitions();
-
-            Rate = IsOn ? 1f : 0f;
-
-            transition.Apply(IsOn, Rate);
-
-            if (transition.activate) gameObject.SetActive(IsOn);
-        }
-
-        void RetrieveTransitions()
-        {
             ComponentQuery.Collection.InHierarchy(this, transition.elements);
+
+            SetState(IsOn);
         }
 
         public virtual void Configure()
@@ -91,8 +82,8 @@ namespace MB.UISystem
 
         }
 
-        public MRoutine.Handle Show() => Transition(true);
-        public MRoutine.Handle Hide() => Transition(false);
+        public MRoutine.Handle Show() => Translate(true);
+        public MRoutine.Handle Hide() => Translate(false);
 
         public MRoutine.Handle Toggle()
         {
@@ -106,7 +97,7 @@ namespace MB.UISystem
         public event TransitionDelegate OnTransition;
 
         MRoutine.Handle routine;
-        public MRoutine.Handle Transition(bool value)
+        public MRoutine.Handle Translate(bool value)
         {
             if (routine.IsProcessing)
                 routine.Stop();
@@ -115,7 +106,6 @@ namespace MB.UISystem
             OnTransition?.Invoke(IsOn);
 
             routine = MRoutine.Create(Procedure).Start();
-            return routine;
             IEnumerator Procedure()
             {
                 if (transition.activate && IsOn == true)
@@ -141,6 +131,17 @@ namespace MB.UISystem
                 if (transition.activate && IsOn == false)
                     gameObject.SetActive(false);
             }
+            return routine;
+        }
+
+        public void SetState(bool value)
+        {
+            IsOn = value;
+            Rate = IsOn ? 1f : 0f;
+
+            transition.Apply(IsOn, Rate);
+
+            if (transition.activate) gameObject.SetActive(IsOn);
         }
 
         public UIElement()
