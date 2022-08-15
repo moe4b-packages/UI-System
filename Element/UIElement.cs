@@ -41,14 +41,14 @@ namespace MB.UISystem
         public class TransitionProperty
         {
             [SerializeField]
-            internal float duration;
+            internal float duration = 0.2f;
 
             [SerializeField]
-            internal bool activate;
+            internal bool activate = true;
 
             [SerializeField]
             [HideInInspector]
-            internal List<UITransition> elements;
+            internal List<UITransition> elements = new List<UITransition>();
 
             public bool IsAssigned => elements.Count > 0;
 
@@ -56,13 +56,6 @@ namespace MB.UISystem
             {
                 for (int i = 0; i < elements.Count; i++)
                     elements[i].Apply(isOn, rate);
-            }
-
-            public TransitionProperty()
-            {
-                duration = 0.5f;
-                activate = true;
-                elements = new List<UITransition>();
             }
         }
 
