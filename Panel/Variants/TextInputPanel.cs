@@ -49,32 +49,33 @@ namespace MB.UISystem
 
 			okay.onClick.AddListener(Confirm);
 			cancel.onClick.AddListener(Deny);
+
+            OnTransition += TransitionCallback;
 		}
 
-		public virtual void Show(string instructions, CallbackDelegate callback)
-		{
-			Show();
+        void TransitionCallback(bool isOn)
+        {
+            if(isOn)
+            {
+				ContentType = InputField.ContentType.Standard;
+			}
+			else
+            {
+				input.text = string.Empty;
+			}
+		}
 
+        public virtual MRoutine.Handle Show(string instructions, CallbackDelegate callback)
+		{
 			label.text = instructions;
 			this.callback = callback;
 
 			SetSelection(input);
-		}
-		public override void Show()
-        {
-            base.Show();
 
-			ContentType = InputField.ContentType.Standard;
+			return Show();
 		}
 
-        public override void Hide()
-        {
-            base.Hide();
-
-			input.text = string.Empty;
-		}
-
-        void Confirm() => Action(true);
+		void Confirm() => Action(true);
 		void Deny() => Action(false);
 
 		void Action(bool confirmed)

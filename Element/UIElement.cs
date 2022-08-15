@@ -23,7 +23,7 @@ using UnityEngine.EventSystems;
 namespace MB.UISystem
 {
     [AddComponentMenu(Paths.Root + "UI Element")]
-    public class UIElement : MonoBehaviour, IInitialize
+    public class UIElement : MonoBehaviour, IInitialize, PreAwake.IInterface
     {
         public static class Paths
         {
@@ -31,45 +31,128 @@ namespace MB.UISystem
 
             public const string Operations = Root + "Operations/";
         }
-        
-        public virtual GameObject Context => gameObject;
 
-        public bool Visibile
+        [field: SerializeField]
+        public bool IsOn { get; private set; }
+
+        [SerializeField]
+        TransitionProperty transition;
+        [Serializable]
+        public class TransitionProperty
         {
-            get => Context.activeInHierarchy;
-            set
+            [SerializeField]
+            internal float duration;
+
+            [SerializeField]
+            internal bool activate;
+
+            [SerializeField]
+            [HideInInspector]
+            internal List<UITransition> elements;
+
+            public bool IsAssigned => elements.Count > 0;
+
+            internal void Apply(bool isOn, float rate)
             {
-                if (value)
-                    Show();
-                else
-                    Hide();
+                for (int i = 0; i < elements.Count; i++)
+                    elements[i].Apply(isOn, rate);
             }
+
+            public TransitionProperty()
+            {
+                duration = 0.5f;
+                activate = true;
+                elements = new List<UITransition>();
+            }
+        }
+
+        public float Rate { get; private set; }
+
+        public virtual void PreAwake()
+        {
+            RetrieveTransitions();
+        }
+
+        protected virtual void OnValidate()
+        {
+            RetrieveTransitions();
+
+            Rate = IsOn ? 1f : 0f;
+
+            transition.Apply(IsOn, Rate);
+
+            if (transition.activate) gameObject.SetActive(IsOn);
+        }
+
+        void RetrieveTransitions()
+        {
+            ComponentQuery.Collection.InHierarchy(this, transition.elements);
         }
 
         public virtual void Configure()
         {
 
         }
-
         public virtual void Initialize()
         {
 
         }
 
-        public event Action OnShow;
-        public virtual void Show()
-        {
-            Context.SetActive(true);
+        public MRoutine.Handle Show() => Transition(true);
+        public MRoutine.Handle Hide() => Transition(false);
 
-            OnShow?.Invoke();
+        public MRoutine.Handle Toggle()
+        {
+            if (IsOn)
+                return Hide();
+            else
+                return Show();
         }
 
-        public event Action OnHide;
-        public virtual void Hide()
-        {
-            Context.SetActive(false);
+        public delegate void TransitionDelegate(bool isOn);
+        public event TransitionDelegate OnTransition;
 
-            OnHide?.Invoke();
+        MRoutine.Handle routine;
+        public MRoutine.Handle Transition(bool value)
+        {
+            if (routine.IsValid)
+                routine.Stop();
+
+            IsOn = value;
+            OnTransition?.Invoke(IsOn);
+
+            routine = MRoutine.Create(Procedure).Start();
+            return routine;
+            IEnumerator Procedure()
+            {
+                if (transition.activate && IsOn == true)
+                    gameObject.SetActive(true);
+
+                if (transition.IsAssigned)
+                {
+                    var target = IsOn ? 1f : 0f;
+
+                    while (true)
+                    {
+                        Rate = Mathf.MoveTowards(Rate, target, Time.deltaTime / transition.duration);
+
+                        transition.Apply(IsOn, Rate);
+
+                        yield return MRoutine.Wait.Frame();
+
+                        if (Mathf.Approximately(Rate, target))
+                            break;
+                    }
+                }
+
+                if (transition.activate && IsOn == false)
+                    gameObject.SetActive(false);
+            }
+        }
+
+        public UIElement()
+        {
+            transition = new TransitionProperty();
         }
 
         //Static Utility
