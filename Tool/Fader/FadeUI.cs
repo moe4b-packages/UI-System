@@ -19,8 +19,6 @@ using Random = UnityEngine.Random;
 
 namespace MB.UISystem
 {
-	[RequireComponent(typeof(Image))]
-	[RequireComponent(typeof(CanvasGroup))]
 	[AddComponentMenu(UI.Paths.Tools + "Fade UI")]
 	public class FadeUI : UIElement
 	{
