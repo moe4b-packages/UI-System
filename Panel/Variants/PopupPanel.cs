@@ -22,14 +22,19 @@ namespace MB.UISystem
 	[AddComponentMenu(Paths.Variants + "Popup Panel")]
 	public class PopupPanel : UIPanel
 	{
-		[SerializeField]
-		Text label = default;
+		UIData UI;
+		[Serializable]
+		public class UIData
+        {
+			[SerializeField]
+			internal Text label;
 
-		[SerializeField]
-		Button button = default;
+			[SerializeField]
+			internal Button button;
 
-		[SerializeField]
-		Text instruction = default;
+			[SerializeField]
+			internal Text instruction;
+		}
 
 		Action callback;
 
@@ -37,19 +42,18 @@ namespace MB.UISystem
 		{
 			base.Configure();
 
-			button.onClick.AddListener(Click);
+			UI.button.onClick.AddListener(Click);
 		}
 
 		public MRoutine.Handle Show(string text) => Show(text, null, null);
 		public MRoutine.Handle Show(string text, string instruction) => Show(text, instruction, null);
 		public MRoutine.Handle Show(string text, string instruction, Action callback)
 		{
-			label.text = text;
+			UI.label.text = text;
+			UI.instruction.text = instruction;
+			UI.button.gameObject.SetActive(instruction != null);
 
 			this.callback = callback;
-			this.instruction.text = instruction;
-
-			button.gameObject.SetActive(instruction != null);
 
 			return Show();
 		}

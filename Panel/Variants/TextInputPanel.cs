@@ -22,23 +22,28 @@ namespace MB.UISystem
 	[AddComponentMenu(Paths.Variants + "Text Input Panel")]
 	public class TextInputPanel : UIPanel
 	{
-		[SerializeField]
-		Text label = default;
+		UIData UI;
+		[Serializable]
+		public class UIData
+		{
+			[SerializeField]
+			internal Text label;
 
-		[SerializeField]
-		InputField input = default;
+			[SerializeField]
+			internal InputField input;
+
+			[SerializeField]
+			internal Button okay;
+
+			[SerializeField]
+			internal Button cancel;
+		}
 
 		public InputField.ContentType ContentType
-        {
-			get => input.contentType;
-			set => input.contentType = value;
-        }
-
-		[SerializeField]
-		Button okay = default;
-
-		[SerializeField]
-		Button cancel = default;
+		{
+			get => UI.input.contentType;
+			set => UI.input.contentType = value;
+		}
 
 		public delegate void CallbackDelegate(bool confirmed, string text);
 		public CallbackDelegate callback;
@@ -47,8 +52,8 @@ namespace MB.UISystem
 		{
 			base.Configure();
 
-			okay.onClick.AddListener(Confirm);
-			cancel.onClick.AddListener(Deny);
+			UI.okay.onClick.AddListener(Confirm);
+			UI.cancel.onClick.AddListener(Deny);
 
             OnTransition += TransitionCallback;
 		}
@@ -61,16 +66,16 @@ namespace MB.UISystem
 			}
 			else
             {
-				input.text = string.Empty;
+				UI.input.text = string.Empty;
 			}
 		}
 
         public virtual MRoutine.Handle Show(string instructions, CallbackDelegate callback)
 		{
-			label.text = instructions;
+			UI.label.text = instructions;
 			this.callback = callback;
 
-			SetSelection(input);
+			SetSelection(UI.input);
 
 			return Show();
 		}
@@ -80,7 +85,7 @@ namespace MB.UISystem
 
 		void Action(bool confirmed)
 		{
-			var text = input.text;
+			var text = UI.input.text;
 
 			Hide();
 
