@@ -26,6 +26,8 @@ namespace MB.UISystem
 			public const string Root = Toolbox.Paths.Root + "UI System/";
 
 			public const string Tools = Root + "Tools/";
+
+			public const string Controls = Root + "Controls/";
 		}
 	}
 }
