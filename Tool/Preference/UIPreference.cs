@@ -31,7 +31,7 @@ namespace MB.UISystem
 
         protected virtual void Reset()
         {
-            ID = MUtility.GetHierarchyPath(transform);
+            ID = MUtility.Unity.GetHierarchyPath(transform);
         }
     }
 

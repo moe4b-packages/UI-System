@@ -125,7 +125,7 @@ namespace MB.UISystem
 
         void UpdateState()
         {
-            Label.text = options.SafeIndexer(Index, OptionFallback);
+            Label.text = options.SafeIndex(Index, OptionFallback);
 
             if(options.Count == 0)
             {
@@ -219,7 +219,7 @@ namespace MB.UISystem
 
                     //Dropdown Button
                     {
-                        var text = selector.options.SafeIndexer(property.intValue, OptionFallback);
+                        var text = selector.options.SafeIndex(property.intValue, OptionFallback);
                         var content = new GUIContent(text);
 
                         if (EditorGUI.DropdownButton(rect, content, FocusType.Keyboard))
