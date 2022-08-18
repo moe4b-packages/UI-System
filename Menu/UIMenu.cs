@@ -33,7 +33,6 @@ namespace MB.UISystem
         {
             Active = this;
         }
-
         protected virtual void OnDisable()
         {
             if (Active == this) Active = null;

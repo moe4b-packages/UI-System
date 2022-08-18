@@ -30,7 +30,6 @@ namespace MB.UISystem
         }
         
         protected virtual void OnEnable() => Register(this);
-
         protected virtual void OnDisable() => Unregister(this);
 
         //Static Utility

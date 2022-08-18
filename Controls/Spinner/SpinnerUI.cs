@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using UnityEditor;
-using UnityEditor.UI;
-
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.UI;
+#endif
 
 namespace MB.UISystem
 {
@@ -89,12 +91,14 @@ namespace MB.UISystem
         UnityEvent<int> onSubmit;
         public UnityEvent<int> OnSubmit => onSubmit;
 
+#if UNITY_EDITOR
         protected override void OnValidate()
         {
             base.OnValidate();
 
             UpdateState();
         }
+#endif
 
         protected override void Start()
         {
@@ -127,7 +131,7 @@ namespace MB.UISystem
         {
             Label.text = options.SafeIndex(Index, OptionFallback);
 
-            if(options.Count == 0)
+            if (options.Count == 0)
             {
                 buttons.Next.interactable = false;
                 buttons.Previous.interactable = false;
