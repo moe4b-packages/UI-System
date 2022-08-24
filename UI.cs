@@ -17,6 +17,8 @@ using UnityEditorInternal;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
+[assembly: AssemblySymbolDefine("MB_UI")]
+
 namespace MB.UISystem
 {
 	public static class UI
